@@ -17,7 +17,14 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.get("/:date?", (req, res) => {
+// Timestamp Microservice
+
+app.get("/api", (req, res) => {
+  const currentDate = new Date().toUTCString();
+  const currentUnix = Date.parse(currentDate);
+  res.json({ unix: currentUnix, utc: currentDate });
+});
+app.get("/api/:date?", (req, res) => {
   const dateString = req.params.date;
   const dateStringRegex = /^[0-9]+$/;
   const numbersOnly = dateStringRegex.test(dateString);
@@ -36,26 +43,20 @@ app.get("/:date?", (req, res) => {
 
     res.json({ unix: unixTimestamp, utc: utcDate });
   }
-
-  app.get("/api", (req, res) => {
-    const currentDate = new Date().toUTCString();
-    const currentUnix = Date.parse(currentDate);
-    res.json({ unix: currentUnix, utc: currentDate });
-  });
 });
 
 /////
 
-app.get("/json", (req, res) => {
-  const mySecret = process.env["MESSAGE_STYLE"];
-  let text;
-  if (mySecret === "uppercase") {
-    text = "Hello json".toUpperCase();
-  } else {
-    text = "Hello json";
-  }
-  res.json({ message: text });
-});
+//app.get("/json", (req, res) => {
+//  const mySecret = process.env["MESSAGE_STYLE"];
+//  let text;
+//  if (mySecret === "uppercase") {
+//    text = "Hello json".toUpperCase();
+//  } else {
+//    text = "Hello json";
+//  }
+//  res.json({ message: text });
+//});
 
 //middleware
 const middleware = (req, res, next) => {
