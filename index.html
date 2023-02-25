@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Hello HTML</title>
+    <title>fictional-engine</title>
     <link rel="stylesheet" href="/public/style.css" />
   </head>
   <body>
@@ -25,7 +25,9 @@
       </div>
       <div>
         <h1>Request Header Parser Microservice</h1>
-        <button>whoami</button>
+        <button>
+          <a target="_blank" href="/api/whoami">whoami</a>
+        </button>
       </div>
       <div>
         <h1>URL Shortener Microservice</h1>
@@ -69,7 +71,7 @@
         document.getElementById("timestamp-microservice-link").innerHTML =
           this.value;
         document.getElementById("timestamp-microservice-link").href =
-          "/" + this.value;
+          "/api/" + this.value;
       };
     </script>
   </body>

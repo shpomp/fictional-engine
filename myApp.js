@@ -13,8 +13,25 @@ app.use("/public", express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//middleware
+const middleware = (req, res, next) => {
+  req.time = new Date().toString();
+  next();
+};
+
+// get /
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
+});
+
+// Request Header Parser Microservice
+
+app.get("/api/whoami", function (req, res) {
+  const ip = req.ip;
+  // console.log(JSON.stringify(req.headers));
+  const language = req.headers["accept-language"];
+  const software = req.headers["user-agent"];
+  res.send({ ipaddress: ip, language: language, software: software });
 });
 
 // Timestamp Microservice
@@ -45,24 +62,7 @@ app.get("/api/:date?", (req, res) => {
   }
 });
 
-/////
-
-//app.get("/json", (req, res) => {
-//  const mySecret = process.env["MESSAGE_STYLE"];
-//  let text;
-//  if (mySecret === "uppercase") {
-//    text = "Hello json".toUpperCase();
-//  } else {
-//    text = "Hello json";
-//  }
-//  res.json({ message: text });
-//});
-
-//middleware
-const middleware = (req, res, next) => {
-  req.time = new Date().toString();
-  next();
-};
+//
 
 app.get("/now", middleware, (req, res) => {
   res.send({
