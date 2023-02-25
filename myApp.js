@@ -67,7 +67,7 @@ app.get("/api/:date?", (req, res) => {
   }
 });
 
-//
+// random
 
 app.get("/now", middleware, (req, res) => {
   res.send({
@@ -80,20 +80,10 @@ app.get("/:word/echo", (req, res) => {
   res.json({
     echo: word,
   });
+  s;
 });
 
-app.get("/name", function (req, res) {
-  var { first: firstName, last: lastName } = req.query;
-  res.json({
-    name: `${firstName} ${lastName}`,
-  });
-});
-
-app.post("/name", function (req, res) {
-  res.json({ name: req.body.first + " " + req.body.last });
-});
-
-///
+/// URL shortener microservice
 
 // SCHEMA
 const Schema = mongoose.Schema;
@@ -110,12 +100,12 @@ const URL = mongoose.model("URL", urlSchema);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(`${process.cwd()}/public`));
 
-// Response for POST request
 app.post("/api/shorturl/", async (req, res) => {
   console.log("req.body", JSON.stringify(req.body));
   const { url } = req.body;
   const shortURL = shortID.generate();
   console.log("validURL", validURL.isUri(url));
+
   if (validURL.isWebUri(url) === undefined) {
     res.json({
       error: "invalid url",
@@ -148,7 +138,6 @@ app.post("/api/shorturl/", async (req, res) => {
   }
 });
 
-// Redirect shortened URL to Original URL
 app.get("/api/shorturl/:shortURL?", async (req, res) => {
   try {
     const urlParams = await URL.findOne({
