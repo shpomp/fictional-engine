@@ -21,4 +21,14 @@ form {
 input,
 button {
   width: 30vw;
+  height: 25px;
+  background-color: rgba(169, 204, 250, 0.323);
+  color: #ddd;
+  border: none;
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+::placeholder {
+  color: #a3a3a3;
 }
