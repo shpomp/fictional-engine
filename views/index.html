@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hello HTML</title>
+    <link rel="stylesheet" href="/public/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <form>
+          <h1>Timestamp Microservice</h1>
+          <input placeholder="date" type="text" />
+          <input type="submit" value="get" />
+        </form>
+        <div class="output"></div>
+      </div>
+      <div>
+        <h1>Request Header Parser Microservice</h1>
+        <button>whoami</button>
+      </div>
+      <div>
+        <h1>URL Shortener Microservice</h1>
+        <form><input type="text" /> <input type="submit" value="get" /></form>
+
+        <div class="output"></div>
+      </div>
+      <div class="exercise-tracker">
+        <h1>Exercise Tracker</h1>
+        <div>
+          <h2>Create a New User</h2>
+          <p>POST /api/users</p>
+          <form>
+            <input placeholder="username" type="text" />
+            <input type="submit" />
+          </form>
+        </div>
+        <div>
+          <h2>Add exercises</h2>
+          <p>POST /api/users/:_id/exercises</p>
+          <form>
+            <input placeholder="id *" type="text" required /><input
+              placeholder="description *"
+              type="text"
+              required
+            />
+            <input placeholder="duration (mins) *" type="text" required />
+            <input placeholder="date" type="date" />
+            <input type="submit" />
+          </form>
+        </div>
+      </div>
+      <div>
+        <h1>File Metadata Microservice</h1>
+        <input type="file" />
+      </div>
+    </div>
+  </body>
+</html>
