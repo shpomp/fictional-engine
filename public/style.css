@@ -29,6 +29,10 @@ button {
   border-radius: 2px;
 }
 
+a {
+  color: inherit;
+}
+
 ::placeholder {
   color: #a3a3a3;
 }

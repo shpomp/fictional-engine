@@ -11,8 +11,15 @@
       <div>
         <form>
           <h1>Timestamp Microservice</h1>
-          <input placeholder="date" type="text" />
-          <input type="submit" value="get" />
+          <input
+            id="timestamp-microservice"
+            placeholder="date"
+            type="text"
+            value=""
+          />
+          <button>
+            <a target="_blank" id="timestamp-microservice-link"></a>
+          </button>
         </form>
         <div class="output"></div>
       </div>
@@ -56,5 +63,14 @@
         <input type="file" />
       </div>
     </div>
+
+    <script>
+      document.getElementById("timestamp-microservice").onkeyup = function () {
+        document.getElementById("timestamp-microservice-link").innerHTML =
+          this.value;
+        document.getElementById("timestamp-microservice-link").href =
+          "/" + this.value;
+      };
+    </script>
   </body>
 </html>
