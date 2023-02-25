@@ -153,4 +153,21 @@ app.get("/api/shorturl/:shortURL?", async (req, res) => {
   }
 });
 
+// File metadata microservice
+
+let multer = require("multer");
+let upload = multer({ dest: "uploads/" });
+
+app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
+  try {
+    res.json({
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      size: req.file.size,
+    });
+  } catch (err) {
+    res.send(400);
+  }
+});
+
 module.exports = app;

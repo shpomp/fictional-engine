@@ -64,7 +64,14 @@
       </div>
       <div>
         <h1>File Metadata Microservice</h1>
-        <input type="file" />
+        <form
+          enctype="multipart/form-data"
+          method="POST"
+          action="/api/fileanalyse"
+        >
+          <input id="inputfield" type="file" name="upfile" />
+          <input id="button" type="submit" value="upload" />
+        </form>
       </div>
     </div>
 
