@@ -31,9 +31,11 @@
       </div>
       <div>
         <h1>URL Shortener Microservice</h1>
-        <form><input type="text" /> <input type="submit" value="get" /></form>
 
-        <div class="output"></div>
+        <form action="api/shorturl" method="post">
+          <input type="text" id="url_input" name="url" />
+          <input type="submit" value="get" />
+        </form>
       </div>
       <div class="exercise-tracker">
         <h1>Exercise Tracker</h1>

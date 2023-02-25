@@ -1,10 +1,16 @@
 let express = require("express");
+const validURL = require("valid-url");
+const shortID = require("shortid");
 let app = express();
-var bodyParser = require("body-parser");
+require("dotenv").config();
+
+let bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URI);
 
 app.use(function middleware(req, res, next) {
   var string = req.method + " " + req.path + " - " + req.ip;
-  console.log(string);
+  console.log("middleware", string);
   next();
 });
 
@@ -28,7 +34,6 @@ app.get("/", function (req, res) {
 
 app.get("/api/whoami", function (req, res) {
   const ip = req.ip;
-  // console.log(JSON.stringify(req.headers));
   const language = req.headers["accept-language"];
   const software = req.headers["user-agent"];
   res.send({ ipaddress: ip, language: language, software: software });
@@ -88,6 +93,75 @@ app.post("/name", function (req, res) {
   res.json({ name: req.body.first + " " + req.body.last });
 });
 
-console.log("Hello World");
+///
+
+// SCHEMA
+const Schema = mongoose.Schema;
+
+const urlSchema = new Schema({
+  originalURL: String,
+  shortURL: String,
+});
+
+const URL = mongoose.model("URL", urlSchema);
+
+// App middleware
+//app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/public", express.static(`${process.cwd()}/public`));
+
+// Response for POST request
+app.post("/api/shorturl/", async (req, res) => {
+  console.log("req.body", JSON.stringify(req.body));
+  const { url } = req.body;
+  const shortURL = shortID.generate();
+  console.log("validURL", validURL.isUri(url));
+  if (validURL.isWebUri(url) === undefined) {
+    res.json({
+      error: "invalid url",
+    });
+  } else {
+    try {
+      let findOne = await URL.findOne({
+        originalURL: url,
+      });
+      if (findOne) {
+        res.json({
+          original_url: findOne.originalURL,
+          short_url: findOne.shortURL,
+        });
+      } else {
+        findOne = new URL({
+          originalURL: url,
+          shortURL,
+        });
+        await findOne.save();
+        res.json({
+          original_url: findOne.originalURL,
+          short_url: findOne.shortURL,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json("Server error..");
+    }
+  }
+});
+
+// Redirect shortened URL to Original URL
+app.get("/api/shorturl/:shortURL?", async (req, res) => {
+  try {
+    const urlParams = await URL.findOne({
+      shortURL: req.params.shortURL,
+    });
+    if (urlParams) {
+      return res.redirect(urlParams.originalURL);
+    }
+    return res.status(404).json("No URL found");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("Server error..");
+  }
+});
 
 module.exports = app;
